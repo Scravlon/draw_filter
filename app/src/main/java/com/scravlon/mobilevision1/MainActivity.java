@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private GraphicOverlay mGraphicOverlay;
 
     private static final int RC_HANDLE_GMS = 9001;
+    private static final int BUTMUSTCODE = 007;
+
     // permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
     SharedPreferences sharedPreferences;
@@ -64,9 +67,9 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout ll_head;
     LinearLayout ll_nose;
     LinearLayout ll_must;
-    ArrayList<Bitmap> arrayHead;
-    ArrayList<Bitmap> arrayNose;
-    ArrayList<Bitmap> arrayMust;
+    ArrayList<String> arrayHead;
+    ArrayList<String> arrayNose;
+    ArrayList<String> arrayMust;
     //==============================================================================================
     // Activity Methods
     //==============================================================================================
@@ -94,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
         arrayMust = arrayListPulling(MUSTSHARE);
 
         //TODO pass useful information
+        //TODO Activity for result
+
        but_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,15 +118,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, drwaingActivity.class);
                 intent.putExtra(typeExtra,MUSTSHARE);
-                startActivity(intent);
+                startActivityForResult(intent,BUTMUSTCODE);
             }
         });
 
         Toast.makeText(this, "SIZE "+ arrayMust.size(), Toast.LENGTH_SHORT).show();
 
-        populateListView(arrayHead,ll_head);
-        populateListView(arrayMust,ll_must);
-        populateListView(arrayNose,ll_nose);
+        populateListView(arrayHead,ll_head,HEADSHARE);
+        populateListView(arrayMust,ll_must,MUSTSHARE);
+        populateListView(arrayNose,ll_nose,NOSESHARE);
 
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         if (rc == PackageManager.PERMISSION_GRANTED) {
@@ -131,21 +136,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void populateListView(ArrayList<Bitmap> arrayList, LinearLayout llView) {
+    private void populateListView(final ArrayList<String> arrayList, LinearLayout llView, final String arraySharedPreference) {
         LinearLayout.LayoutParams aa = (LinearLayout.LayoutParams) but_head.getLayoutParams();
-        for(Bitmap c : arrayList){
-            ImageButton imageButton = new ImageButton(this);
+        for(final String c : arrayList){
+            final ImageButton imageButton = new ImageButton(this);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(aa.width, aa.height);
             imageButton.setBackground(getDrawable(R.drawable.imgagebutton));
             imageButton.setLayoutParams(layoutParams);
-
-            //c.drawBitmap(myBitmap,0,0,null);
-          //  Toast.makeText(this, "C : " + c.getWidth() + "W : " + c.getHeight(), Toast.LENGTH_SHORT).show();
-            try {
-          //      imageButton.setImageBitmap(c);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+            imageButton.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    arrayList.remove(c);
+                    arrayListAdding(arrayList,arraySharedPreference);
+                    return false;                }
+            });
+            imageButton.setImageBitmap(decodeBase64(c));
             llView.addView(imageButton);
         }
     }
@@ -155,10 +160,8 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param target ArrayList to be added
      * @param targetString SharedPreference target string
-     * @param adding Canvas tobe added
      */
-    public void arrayListAdding(ArrayList<Bitmap> target, String targetString, Bitmap adding){
-        target.add(adding);
+    public void arrayListAdding(ArrayList<String> target, String targetString){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(target);
@@ -171,14 +174,14 @@ public class MainActivity extends AppCompatActivity {
      * @param targetString SharedPreference string
      * @return ArrayList of Canvas
      */
-    public ArrayList<Bitmap> arrayListPulling(String targetString){
+    public ArrayList<String> arrayListPulling(String targetString){
         SharedPreferences prefs = getSharedPreferences(SHAREDSTRING,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = prefs.getString(targetString, null);
         if(json==null){
-            return (new ArrayList<Bitmap>());
+            return (new ArrayList<String>());
         }
-        Type type = new TypeToken<ArrayList<Bitmap>>() {}.getType();
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
         return gson.fromJson(json, type);
     }
 
@@ -353,6 +356,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory
+                .decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
+
     //==============================================================================================
     // Graphic Face Tracker
     //==============================================================================================
@@ -416,5 +425,7 @@ public class MainActivity extends AppCompatActivity {
         public void onDone() {
             mOverlay.remove(mFaceGraphic);
         }
+
+
     }
 }
