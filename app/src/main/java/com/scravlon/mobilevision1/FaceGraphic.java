@@ -15,18 +15,13 @@
  */
 package com.scravlon.mobilevision1;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.Landmark;
@@ -102,10 +97,6 @@ class FaceGraphic extends GraphicOverlay.Graphic {
         if (face == null) {
             return;
         }
-
-        //float x = translateX(face.getPosition().x + face.getWidth() / 2);
-        //float y = translateY(face.getPosition().y + face.getHeight() / 2);
-
        Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
                 R.drawable.index);
         Matrix matrix = new Matrix();
@@ -124,8 +115,34 @@ class FaceGraphic extends GraphicOverlay.Graphic {
                 canvas.drawBitmap(rotatedBitmap,nosex,nosey,null);
             }
         }
-
   //      canvas.drawBitmap(icon,nosex,nosey,null);
+    }
+    /**
+     * Draws the face annotations for position on the supplied canvas.
+     */
+    public void draw(Canvas canvas,Bitmap bitmap) {
+        Face face = mFace;
+        if (face == null) {
+            return;
+        }
+       Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.index);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(face.getEulerZ());
+        matrix.postSkew(face.getEulerY()/90,face.getEulerZ()/90);
+        Bitmap must = Bitmap.createScaledBitmap(icon,(int)face.getWidth(),(int)face.getHeight()/2,true);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(must, 0, 0, must.getWidth(), must.getHeight(), matrix, true);
 
+        float nosex = 0.0f;
+        float nosey = 0.0f;
+        for(Landmark l : face.getLandmarks()){
+            if(l.getType() == Landmark.NOSE_BASE){
+                nosex = translateX(l.getPosition().x)-(must.getWidth()/2f);
+                nosey = translateY(l.getPosition().y );
+
+                canvas.drawBitmap(rotatedBitmap,nosex,nosey,null);
+            }
+        }
+  //      canvas.drawBitmap(icon,nosex,nosey,null);
     }
 }

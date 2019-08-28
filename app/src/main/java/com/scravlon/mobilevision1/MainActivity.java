@@ -1,8 +1,8 @@
 package com.scravlon.mobilevision1;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
@@ -11,15 +11,17 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
-import android.hardware.camera2.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -29,10 +31,20 @@ import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.scravlon.mobilevision1.camera.CameraSourcePreview;
 import com.scravlon.mobilevision1.camera.GraphicOverlay;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
+import static com.scravlon.mobilevision1.constantClass.HEADSHARE;
+import static com.scravlon.mobilevision1.constantClass.MUSTSHARE;
+import static com.scravlon.mobilevision1.constantClass.NOSESHARE;
+import static com.scravlon.mobilevision1.constantClass.SHAREDSTRING;
+import static com.scravlon.mobilevision1.constantClass.typeExtra;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "FaceTracker";
@@ -45,7 +57,16 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_HANDLE_GMS = 9001;
     // permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
-    Button but_start;
+    SharedPreferences sharedPreferences;
+    ImageButton but_head;
+    ImageButton but_nose;
+    ImageButton but_must;
+    LinearLayout ll_head;
+    LinearLayout ll_nose;
+    LinearLayout ll_must;
+    ArrayList<Bitmap> arrayHead;
+    ArrayList<Bitmap> arrayNose;
+    ArrayList<Bitmap> arrayMust;
     //==============================================================================================
     // Activity Methods
     //==============================================================================================
@@ -60,22 +81,99 @@ public class MainActivity extends AppCompatActivity {
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
-        but_start = findViewById(R.id.but_start);
-        but_start.setOnClickListener(new View.OnClickListener() {
+        but_head = findViewById(R.id.but_addHead);
+        but_nose = findViewById(R.id.but_addNose);
+        but_must = findViewById(R.id.but_addMust);
+        ll_head = findViewById(R.id.ll_head);
+        ll_nose = findViewById(R.id.ll_must);
+        ll_must = findViewById(R.id.ll_nose);
+
+        sharedPreferences = getSharedPreferences(SHAREDSTRING,MODE_PRIVATE);
+        arrayHead = arrayListPulling(HEADSHARE);
+        arrayNose = arrayListPulling(NOSESHARE);
+        arrayMust = arrayListPulling(MUSTSHARE);
+
+        //TODO pass useful information
+       but_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, drwaingActivity.class);
+                intent.putExtra(typeExtra,HEADSHARE);
+                startActivity(intent);
+            }
+        });but_nose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, drwaingActivity.class);
+                intent.putExtra(typeExtra,NOSESHARE);
+                startActivity(intent);
+            }
+        });but_must.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, drwaingActivity.class);
+                intent.putExtra(typeExtra,MUSTSHARE);
                 startActivity(intent);
             }
         });
-        // Check for the camera permission before accessing the camera.  If the
-        // permission is not granted yet, request permission.
+
+        Toast.makeText(this, "SIZE "+ arrayMust.size(), Toast.LENGTH_SHORT).show();
+
+        populateListView(arrayHead,ll_head);
+
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         if (rc == PackageManager.PERMISSION_GRANTED) {
             createCameraSource();
         } else {
             requestCameraPermission();
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void populateListView(ArrayList<Bitmap> arrayList, LinearLayout llView) {
+        for(Bitmap c : arrayList){
+            ImageButton imageButton = new ImageButton(this);
+            //c.drawBitmap(myBitmap,0,0,null);
+          //  Toast.makeText(this, "C : " + c.getWidth() + "W : " + c.getHeight(), Toast.LENGTH_SHORT).show();
+            try {
+                imageButton.setImageBitmap(c);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            llView.addView(imageButton);
+        }
+    }
+
+    /**
+     * Add the drew Bitmap to the storage
+     *
+     * @param target ArrayList to be added
+     * @param targetString SharedPreference target string
+     * @param adding Canvas tobe added
+     */
+    public void arrayListAdding(ArrayList<Bitmap> target, String targetString, Bitmap adding){
+        target.add(adding);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(target);
+        editor.putString(targetString, json);
+        editor.apply();
+    }
+
+    /**
+     * Pull canvas data to populate art selection
+     * @param targetString SharedPreference string
+     * @return ArrayList of Canvas
+     */
+    public ArrayList<Bitmap> arrayListPulling(String targetString){
+        SharedPreferences prefs = getSharedPreferences(SHAREDSTRING,MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString(targetString, null);
+        if(json==null){
+            return (new ArrayList<Bitmap>());
+        }
+        Type type = new TypeToken<ArrayList<Bitmap>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     /**
@@ -196,20 +294,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            Log.d(TAG, "Got unexpected permission result: " + requestCode);
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             return;
         }
 
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Camera permission granted - initialize the camera source");
-            // we have permission, so create the camerasource
             createCameraSource();
             return;
         }
-
-        Log.e(TAG, "Permission not granted: results len = " + grantResults.length +
-                " Result code = " + (grantResults.length > 0 ? grantResults[0] : "(empty)"));
 
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

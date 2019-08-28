@@ -44,21 +44,9 @@ public class drawView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
-       // drawPaint.setStyle(Paint.Style.FILL); // change to fill
         canvas.drawPath(path, drawPaint);
     }
-/*
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        float touchX = event.getX();
-        float touchY = event.getY();
-        circlePoints.add(new Point(Math.round(touchX), Math.round(touchY)));
-        // indicate view should be redrawn
-        postInvalidate();
-        return true;
-    }
-*/
+
     // Get x and y and append them to the path
     public boolean onTouchEvent(MotionEvent event) {
         float pointX = event.getX();
