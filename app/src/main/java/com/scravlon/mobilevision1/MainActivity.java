@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "SIZE "+ arrayMust.size(), Toast.LENGTH_SHORT).show();
 
         populateListView(arrayHead,ll_head);
+        populateListView(arrayMust,ll_must);
+        populateListView(arrayNose,ll_nose);
 
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         if (rc == PackageManager.PERMISSION_GRANTED) {
@@ -129,14 +131,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void populateListView(ArrayList<Bitmap> arrayList, LinearLayout llView) {
+        LinearLayout.LayoutParams aa = (LinearLayout.LayoutParams) but_head.getLayoutParams();
         for(Bitmap c : arrayList){
             ImageButton imageButton = new ImageButton(this);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(aa.width, aa.height);
+            imageButton.setBackground(getDrawable(R.drawable.imgagebutton));
+            imageButton.setLayoutParams(layoutParams);
+
             //c.drawBitmap(myBitmap,0,0,null);
           //  Toast.makeText(this, "C : " + c.getWidth() + "W : " + c.getHeight(), Toast.LENGTH_SHORT).show();
             try {
-                imageButton.setImageBitmap(c);
+          //      imageButton.setImageBitmap(c);
             } catch (Exception e){
                 e.printStackTrace();
             }

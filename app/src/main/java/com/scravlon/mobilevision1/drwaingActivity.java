@@ -93,7 +93,7 @@ public class drwaingActivity extends AppCompatActivity {
     }
 
     public static Bitmap loadBitmapFromView(View v) {
-        Bitmap b = Bitmap.createBitmap( 1, 1, Bitmap.Config.RGB_565);
+        Bitmap b = Bitmap.createBitmap( 1000, 1000, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
         v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
         v.draw(c);

@@ -41,13 +41,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-          <ImageView
-              android:id="@+id/imageView123"
-              android:layout_width="100dp"
-              android:layout_height="100dp"
-              android:layout_weight="1"
-              app:srcCompat="@drawable/index" />
-
           <ImageButton
               android:id="@+id/but_addHead"
               android:layout_width="100dp"
@@ -67,44 +60,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-          <ImageButton
-              android:id="@+id/imageButton5"
-              android:layout_width="100dp"
-              android:layout_height="100dp"
-              android:layout_weight="1"
-              android:background="@drawable/imgagebutton"
-              app:srcCompat="@drawable/common_google_signin_btn_icon_dark_focused" />
-
           <ImageView
               android:id="@+id/imageView6"
-              android:layout_width="100dp"
-              android:layout_height="100dp"
-              android:layout_weight="1"
-              app:srcCompat="@drawable/index" />
-
-          <ImageView
-              android:id="@+id/imageView3"
-              android:layout_width="100dp"
-              android:layout_height="100dp"
-              android:layout_weight="1"
-              app:srcCompat="@drawable/common_plus_signin_btn_icon_dark_pressed" />
-
-          <ImageView
-              android:id="@+id/imageView4"
-              android:layout_width="100dp"
-              android:layout_height="100dp"
-              android:layout_weight="1"
-              app:srcCompat="@drawable/index" />
-
-          <ImageView
-              android:id="@+id/imageView2"
-              android:layout_width="100dp"
-              android:layout_height="100dp"
-              android:layout_weight="1"
-              app:srcCompat="@drawable/common_plus_signin_btn_icon_dark_pressed" />
-
-          <ImageView
-              android:id="@+id/imageView"
               android:layout_width="100dp"
               android:layout_height="100dp"
               android:layout_weight="1"
