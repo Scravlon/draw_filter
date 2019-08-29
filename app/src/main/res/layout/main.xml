@@ -35,12 +35,10 @@
       <HorizontalScrollView
           android:layout_width="match_parent"
           android:layout_height="match_parent">
-
         <LinearLayout
-            android:id="@+id/ll_head"
+            android:id="@+id/ll_head_parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
           <ImageButton
               android:id="@+id/but_addHead"
               android:layout_width="100dp"
@@ -48,18 +46,23 @@
               android:layout_weight="1"
               android:background="@drawable/imgagebutton"
               app:srcCompat="@android:drawable/ic_menu_add" />
+        <LinearLayout
+            android:id="@+id/ll_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        </LinearLayout>
+
         </LinearLayout>
       </HorizontalScrollView>
 
       <HorizontalScrollView
           android:layout_width="match_parent"
           android:layout_height="match_parent">
-
         <LinearLayout
-            android:id="@+id/ll_must"
+            android:id="@+id/ll_must_parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
           <ImageButton
               android:id="@+id/but_addMust"
               android:layout_width="100dp"
@@ -67,25 +70,22 @@
               android:layout_weight="1"
               android:background="@drawable/imgagebutton"
               app:srcCompat="@android:drawable/ic_menu_add" />
-
-          <ImageView
-              android:id="@+id/imageView6"
-              android:layout_width="100dp"
-              android:layout_height="100dp"
-              android:layout_weight="1"
-              app:srcCompat="@drawable/index" />
+        <LinearLayout
+            android:id="@+id/ll_must"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
         </LinearLayout>
+
       </HorizontalScrollView>
 
       <HorizontalScrollView
           android:layout_width="match_parent"
           android:layout_height="match_parent">
-
         <LinearLayout
-            android:id="@+id/ll_nose"
+            android:id="@+id/ll_nose_parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
           <ImageButton
               android:id="@+id/but_addNose"
               android:layout_width="100dp"
@@ -93,6 +93,14 @@
               android:layout_weight="1"
               android:background="@drawable/imgagebutton"
               app:srcCompat="@android:drawable/ic_menu_add" />
+        <LinearLayout
+            android:id="@+id/ll_nose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+          </LinearLayout>
         </LinearLayout>
       </HorizontalScrollView>
     </LinearLayout>

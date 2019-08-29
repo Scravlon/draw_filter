@@ -22,6 +22,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PointF;
 
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.Landmark;
@@ -52,6 +53,10 @@ class FaceGraphic extends GraphicOverlay.Graphic {
     private Paint mBoxPaint;
 
     private volatile Face mFace;
+    public Bitmap headBit;
+    public Bitmap mustBit;
+    public Bitmap noseBit;
+
     private int mFaceId;
     private float mFaceHappiness;
 
@@ -97,25 +102,31 @@ class FaceGraphic extends GraphicOverlay.Graphic {
         if (face == null) {
             return;
         }
-       Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.index);
-        Matrix matrix = new Matrix();
-        matrix.postRotate(face.getEulerZ());
-        matrix.postSkew(face.getEulerY()/90,face.getEulerZ()/90);
-        Bitmap must = Bitmap.createScaledBitmap(icon,(int)face.getWidth(),(int)face.getHeight()/2,true);
-        Bitmap rotatedBitmap = Bitmap.createBitmap(must, 0, 0, must.getWidth(), must.getHeight(), matrix, true);
-
+//       Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
+//                R.drawable.index);
+//        Matrix matrix = new Matrix();
+//        matrix.postRotate(face.getEulerZ());
+//        matrix.postSkew(face.getEulerY()/90,face.getEulerZ()/90);
+//        Bitmap must = Bitmap.createScaledBitmap(icon,(int)face.getWidth(),(int)face.getHeight()/2,true);
+//        Bitmap rotatedBitmap = Bitmap.createBitmap(must, 0, 0, must.getWidth(), must.getHeight(), matrix, true);
         float nosex = 0.0f;
         float nosey = 0.0f;
-        for(Landmark l : face.getLandmarks()){
-            if(l.getType() == Landmark.NOSE_BASE){
-                nosex = translateX(l.getPosition().x)-(must.getWidth()/2f);
-                nosey = translateY(l.getPosition().y );
+        float mouth = 0.0f;
 
-                canvas.drawBitmap(rotatedBitmap,nosex,nosey,null);
+        for(Landmark l : face.getLandmarks()){
+            if(l.getType() == Landmark.NOSE_BASE && noseBit != null){
+                PointF p = face.getPosition();
+                nosex = translateX(l.getPosition().x);
+                nosey = translateY(l.getPosition().y );
+                canvas.drawBitmap(noseBit,p.x-nosex,p.y-nosey,null);
+
+            } else if(l.getType() == Landmark.LEFT_MOUTH){
+
             }
         }
-  //      canvas.drawBitmap(icon,nosex,nosey,null);
+
+
+        //      canvas.drawBitmap(icon,nosex,nosey,null);
     }
     /**
      * Draws the face annotations for position on the supplied canvas.

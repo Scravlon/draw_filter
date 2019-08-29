@@ -48,6 +48,7 @@ import static com.scravlon.mobilevision1.constantClass.SHAREDSTRING;
 import static com.scravlon.mobilevision1.constantClass.typeExtra;
 
 public class MainActivity extends AppCompatActivity {
+    public FaceGraphic mFaceGraphic;
     private static final String TAG = "FaceTracker";
 
     private CameraSource mCameraSource = null;
@@ -56,7 +57,11 @@ public class MainActivity extends AppCompatActivity {
     private GraphicOverlay mGraphicOverlay;
 
     private static final int RC_HANDLE_GMS = 9001;
-    private static final int BUTMUSTCODE = 007;
+
+    private static final int BUTMUSTCODE = 7;
+    private static final int BUTMNOSECODE = 8;
+    private static final int BUTHEADCODE = 9;
+
 
     // permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
@@ -88,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
         but_nose = findViewById(R.id.but_addNose);
         but_must = findViewById(R.id.but_addMust);
         ll_head = findViewById(R.id.ll_head);
-        ll_nose = findViewById(R.id.ll_must);
-        ll_must = findViewById(R.id.ll_nose);
+        ll_nose = findViewById(R.id.ll_nose);
+        ll_must = findViewById(R.id.ll_must);
 
         sharedPreferences = getSharedPreferences(SHAREDSTRING,MODE_PRIVATE);
         arrayHead = arrayListPulling(HEADSHARE);
@@ -123,10 +128,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Toast.makeText(this, "SIZE "+ arrayMust.size(), Toast.LENGTH_SHORT).show();
-
-        populateListView(arrayHead,ll_head,HEADSHARE);
-        populateListView(arrayMust,ll_must,MUSTSHARE);
-        populateListView(arrayNose,ll_nose,NOSESHARE);
+        refreshView();
 
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         if (rc == PackageManager.PERMISSION_GRANTED) {
@@ -143,18 +145,51 @@ public class MainActivity extends AppCompatActivity {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(aa.width, aa.height);
             imageButton.setBackground(getDrawable(R.drawable.imgagebutton));
             imageButton.setLayoutParams(layoutParams);
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    switch (arraySharedPreference){
+                        case HEADSHARE:
+                            mFaceGraphic.headBit = decodeBase64(c);
+                            break;
+                        case MUSTSHARE:
+                            mFaceGraphic.mustBit = decodeBase64(c);
+                            break;
+                        case NOSESHARE:
+                            mFaceGraphic.noseBit = decodeBase64(c);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
             imageButton.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     arrayList.remove(c);
                     arrayListAdding(arrayList,arraySharedPreference);
-                    return false;                }
+                    refreshView();
+                    return true;                }
             });
             imageButton.setImageBitmap(decodeBase64(c));
+            imageButton.setAdjustViewBounds(true);
             llView.addView(imageButton);
         }
     }
 
+    private void resetListView(LinearLayout ll){
+        ll.removeAllViews();
+    }
+
+    private void refreshView(){
+        resetListView(ll_head);
+        resetListView(ll_must);
+        resetListView(ll_nose);
+        populateListView(arrayHead,ll_head,HEADSHARE);
+        populateListView(arrayMust,ll_must,MUSTSHARE);
+        populateListView(arrayNose,ll_nose,NOSESHARE);
+
+    }
     /**
      * Add the drew Bitmap to the storage
      *
@@ -258,8 +293,11 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onResume() {
+        arrayHead = arrayListPulling(HEADSHARE);
+        arrayNose = arrayListPulling(NOSESHARE);
+        arrayMust = arrayListPulling(MUSTSHARE);
+        refreshView();
         super.onResume();
-
         startCameraSource();
     }
 
@@ -383,7 +421,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private class GraphicFaceTracker extends Tracker<Face> {
         private GraphicOverlay mOverlay;
-        private FaceGraphic mFaceGraphic;
 
         GraphicFaceTracker(GraphicOverlay overlay) {
             mOverlay = overlay;
