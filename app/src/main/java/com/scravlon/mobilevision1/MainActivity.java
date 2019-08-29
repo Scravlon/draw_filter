@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
@@ -62,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
     private static final int BUTMNOSECODE = 8;
     private static final int BUTHEADCODE = 9;
 
+    private String chead="";
+    private String cnose="";
+    private String cmust="";
+
+
 
     // permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
@@ -75,9 +81,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> arrayHead;
     ArrayList<String> arrayNose;
     ArrayList<String> arrayMust;
-    //==============================================================================================
-    // Activity Methods
-    //==============================================================================================
 
     /**
      * Initializes the UI and initiates the creation of a face detector.
@@ -87,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(icicle);
         setContentView(R.layout.main);
 
-        mPreview = (CameraSourcePreview) findViewById(R.id.preview);
-        mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
+        mPreview = findViewById(R.id.preview);
+        mGraphicOverlay = findViewById(R.id.faceOverlay);
         but_head = findViewById(R.id.but_addHead);
         but_nose = findViewById(R.id.but_addNose);
         but_must = findViewById(R.id.but_addMust);
@@ -138,29 +141,53 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void populateListView(final ArrayList<String> arrayList, LinearLayout llView, final String arraySharedPreference) {
+    private void populateListView(final ArrayList<String> arrayList, final LinearLayout llView, final String arraySharedPreference) {
         LinearLayout.LayoutParams aa = (LinearLayout.LayoutParams) but_head.getLayoutParams();
         for(final String c : arrayList){
             final ImageButton imageButton = new ImageButton(this);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(aa.width, aa.height);
             imageButton.setBackground(getDrawable(R.drawable.imgagebutton));
             imageButton.setLayoutParams(layoutParams);
+            if(c.equals(chead)||c.equals(cmust)||c.equals(cnose)){
+                imageButton.setBackgroundColor(Color.GRAY);
+            }
             imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                  //  view.setBackgroundColor(Color.GRAY);
                     switch (arraySharedPreference){
                         case HEADSHARE:
-                            mFaceGraphic.headBit = decodeBase64(c);
+                            if(chead.equals(c)){
+                                chead="";
+                                mFaceGraphic.headBit = null;
+                            } else{
+                                chead = c;
+                                mFaceGraphic.headBit = decodeBase64(c);
+                            }
                             break;
                         case MUSTSHARE:
-                            mFaceGraphic.mustBit = decodeBase64(c);
+                            if(cmust.equals(c)){
+                                cmust="";
+                                mFaceGraphic.mustBit = null;
+                            } else{
+                                cmust = c;
+                                mFaceGraphic.mustBit = decodeBase64(c);
+                            }
                             break;
                         case NOSESHARE:
-                            mFaceGraphic.noseBit = decodeBase64(c);
+                            if(cnose.equals(c)){
+                                cnose="";
+                                mFaceGraphic.noseBit = null;
+                            } else{
+                                cnose = c;
+                                mFaceGraphic.noseBit = decodeBase64(c);
+                            }
                             break;
                         default:
                             break;
                     }
+                    resetListView(llView);
+                    populateListView(arrayList,llView,arraySharedPreference);
                 }
             });
             imageButton.setOnLongClickListener(new View.OnLongClickListener() {
