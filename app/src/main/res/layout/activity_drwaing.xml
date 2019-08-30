@@ -30,7 +30,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal">
@@ -42,69 +42,72 @@
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/radio_pirates"
+                android:id="@+id/radiored"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
-                android:background="@drawable/cb"
+                android:background="@drawable/radiored"
                 android:button="@null"
                 android:text="          " />
 
             <RadioButton
-                android:id="@+id/radio_pirates4"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/cb"
-                android:button="@null"
-                android:text="          " />
-
-            <RadioButton
-                android:id="@+id/radio_pirates5"
+                android:id="@+id/radioorange"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
                 android:layout_weight="1"
-                android:background="@drawable/cb"
+                android:background="@drawable/radioorange"
                 android:button="@null"
                 android:text="          " />
 
             <RadioButton
-                android:id="@+id/radio_pirates6"
+                android:id="@+id/radioyellow"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
                 android:layout_weight="1"
-                android:background="@drawable/cb"
+                android:background="@drawable/radioyellow"
                 android:button="@null"
                 android:text="          " />
 
             <RadioButton
-                android:id="@+id/radio_pirates7"
+                android:id="@+id/radiogreen"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
                 android:layout_weight="1"
-                android:background="@drawable/cb"
+                android:background="@drawable/radiogreen"
                 android:button="@null"
                 android:text="          " />
 
             <RadioButton
-                android:id="@+id/radio_pirates1"
+                android:id="@+id/radioblue"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark" />
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/radioblue"
+                android:button="@null"
+                android:text="          " />
+
             <RadioButton
-                android:id="@+id/radio_pirates2"
+                android:id="@+id/radioindigo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark" />
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/radioindigo"
+                android:button="@null"
+                android:text="          " />
             <RadioButton
-                android:id="@+id/radio_pirates3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark" />
+            android:id="@+id/radioviolet"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/radioviolet"
+            android:button="@null"
+            android:text="          " />
 
         </RadioGroup>
     </LinearLayout>

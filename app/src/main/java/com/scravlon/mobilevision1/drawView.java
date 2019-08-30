@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RadioButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 public class drawView extends View {
     private Path path = new Path();
     // setup initial color
-    private final int paintColor = Color.BLACK;
+    private int paintColor = Color.BLACK;
     // defines paint and canvas
     private Paint drawPaint;
     // Store circles to draw each time the user touches down
@@ -30,12 +31,22 @@ public class drawView extends View {
         circlePoints = new ArrayList<Point>();
     }
 
+    /**
+     * Update color of the paint
+     * @param c Color to be used
+     */
+    public void updateColor(int c){
+        drawPaint.setColor(c);
+    }
+
+    /**
+     * Setup the paint brush
+     */
     private void setupPaint() {
         drawPaint = new Paint();
         drawPaint.setColor(paintColor);
         drawPaint.setAntiAlias(true);
         drawPaint.setStrokeWidth(5);
-        drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
         drawPaint.setStyle(Paint.Style.FILL); // change to fill

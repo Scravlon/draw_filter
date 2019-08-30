@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -57,6 +60,50 @@ public class drwaingActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        RadioButton radioRed = findViewById(R.id.radiored);
+        RadioButton radioorange = findViewById(R.id.radioorange);
+        RadioButton radioyellow = findViewById(R.id.radioyellow);
+        RadioButton radiogreen = findViewById(R.id.radiogreen);
+        RadioButton radioblue = findViewById(R.id.radioblue);
+        RadioButton radioindigo = findViewById(R.id.radioindigo);
+        RadioButton radioviolet = findViewById(R.id.radioviolet);
+        radioRed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawView.updateColor(Color.RED);
+            }
+        });radioorange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawView.updateColor(Color.rgb(255,127,0));
+            }
+        });radioyellow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawView.updateColor(Color.rgb(255,255,0));
+            }
+        });radiogreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawView.updateColor(Color.rgb(0,255,0));
+            }
+        });radioblue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawView.updateColor(Color.rgb(0,0,255));
+            }
+        });radioindigo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawView.updateColor(Color.rgb(39,0,51));
+            }
+        });radioviolet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawView.updateColor(Color.rgb(139,0,255));
+            }
+        });
     }
 
 
@@ -93,6 +140,11 @@ public class drwaingActivity extends AppCompatActivity {
         return gson.fromJson(json, type);
     }
 
+    /**
+     * Load the painting to Bitmap from view
+     * @param v Painting View
+     * @return Bitmap of the painting
+     */
     public static Bitmap loadBitmapFromView(View v) {
         Bitmap b = Bitmap.createBitmap( v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
@@ -101,6 +153,11 @@ public class drwaingActivity extends AppCompatActivity {
         return b;
     }
 
+    /**
+     * Encode bitmap to Base64 easy storage
+     * @param image Bitmap to be encoded
+     * @return Base64 string bitmap
+     */
     public static String encodeTobase64(Bitmap image) {
         Bitmap immage = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

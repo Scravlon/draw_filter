@@ -141,6 +141,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Populate the user select ListView
+     * @param arrayList ArrayList to be used in population
+     * @param llView Specified ListView to be populate
+     * @param arraySharedPreference SharedPreference reference
+     */
     private void populateListView(final ArrayList<String> arrayList, final LinearLayout llView, final String arraySharedPreference) {
         LinearLayout.LayoutParams aa = (LinearLayout.LayoutParams) but_head.getLayoutParams();
         for(final String c : arrayList){
@@ -204,10 +210,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Remove all view in a Layout
+     * @param ll LinearLayour to be cleared
+     */
     private void resetListView(LinearLayout ll){
         ll.removeAllViews();
     }
 
+    /**
+     * Reset all the view with new views
+     */
     private void refreshView(){
         resetListView(ll_head);
         resetListView(ll_must);
@@ -296,14 +309,7 @@ public class MainActivity extends AppCompatActivity {
                         .build());
 
         if (!detector.isOperational()) {
-            // Note: The first time that an app using face API is installed on a device, GMS will
-            // download a native library to the device in order to do detection.  Usually this
-            // completes before the app is run for the first time.  But if that download has not yet
-            // completed, then the above call will not detect any faces.
-            //
-            // isOperational() can be used to check if the required native library is currently
-            // available.  The detector will automatically become operational once the library
-            // download completes on device.
+
             Log.w(TAG, "Face detector dependencies are not yet available.");
         }
 
@@ -316,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Restarts the camera.
+     * Restarts the camera. Update the ArrayList
      */
     @Override
     protected void onResume() {
