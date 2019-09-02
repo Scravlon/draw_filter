@@ -111,7 +111,10 @@ class FaceGraphic extends GraphicOverlay.Graphic {
 //        Bitmap rotatedBitmap = Bitmap.createBitmap(must, 0, 0, must.getWidth(), must.getHeight(), matrix, true);
         float nosex = 0.0f;
         float nosey = 0.0f;
-        float mouth = 0.0f;
+        PointF mouth = null;
+        PointF eyel = null;
+        PointF eyer= null;
+
 
         for(Landmark l : face.getLandmarks()){
             if(l.getType() == Landmark.NOSE_BASE && noseBit != null){
@@ -119,11 +122,32 @@ class FaceGraphic extends GraphicOverlay.Graphic {
                 nosex = translateX(l.getPosition().x);
                 nosey = translateY(l.getPosition().y );
                 canvas.drawBitmap(noseBit,p.x-nosex,p.y-nosey,null);
-
-            } else if(l.getType() == Landmark.LEFT_MOUTH){
-
+            } else if(l.getType() == Landmark.LEFT_EYE){
+                eyel = l.getPosition();
+            } else if(l.getType() == Landmark.RIGHT_EYE){
+                eyer = l.getPosition();
+            } else if(l.getType() == Landmark.BOTTOM_MOUTH){
+                mouth = l.getPosition();
             }
         }
+        //Head
+        if(headBit != null){
+            //TODO Triangle
+            float ftx = eyel.x + (eyer.x-eyel.x)/2;
+            float fty = eyer.y + (eyer.y-eyel.y)/2;
+            //canvas.drawBitmap(headBit,translateX(ftx),translateY(fty),null);
+            Bitmap clone = Bitmap.createScaledBitmap(headBit,(int)face.getWidth()*2,(int)face.getHeight()*2,true);
+            canvas.drawBitmap(clone,translateX(ftx),translateY(fty),null);
+        }
+        if(mustBit != null){
+            //TODO Triangle
+            float mx = mouth.x;
+            float my = mouth.y;
+            //canvas.drawBitmap(mustBit,translateX(mx),translateX(my),null);
+            Bitmap clone = Bitmap.createScaledBitmap(mustBit,(int)face.getWidth()*2,(int)face.getHeight()*2,true);
+            canvas.drawBitmap(clone,translateX(face.getPosition().x),translateY(face.getPosition().y),null);
+        }
+
 
 
         //      canvas.drawBitmap(icon,nosex,nosey,null);
@@ -150,7 +174,6 @@ class FaceGraphic extends GraphicOverlay.Graphic {
             if(l.getType() == Landmark.NOSE_BASE){
                 nosex = translateX(l.getPosition().x)-(must.getWidth()/2f);
                 nosey = translateY(l.getPosition().y );
-
                 canvas.drawBitmap(rotatedBitmap,nosex,nosey,null);
             }
         }

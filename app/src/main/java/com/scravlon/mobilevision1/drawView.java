@@ -39,6 +39,10 @@ public class drawView extends View {
         drawPaint.setColor(c);
     }
 
+    public void updateSize(int paintSize){
+        drawPaint.setStrokeWidth(5*paintSize);
+    }
+
     /**
      * Setup the paint brush
      */

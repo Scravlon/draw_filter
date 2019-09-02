@@ -99,18 +99,26 @@
                 android:background="@drawable/radioindigo"
                 android:button="@null"
                 android:text="          " />
+
             <RadioButton
-            android:id="@+id/radioviolet"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/radioviolet"
-            android:button="@null"
-            android:text="          " />
+                android:id="@+id/radioviolet"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/radioviolet"
+                android:button="@null"
+                android:text="          " />
 
         </RadioGroup>
     </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="5"
+        android:progress="2" />
 
     <com.scravlon.mobilevision1.drawView
         android:id="@+id/drawView"

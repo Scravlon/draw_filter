@@ -1,9 +1,7 @@
 package com.scravlon.mobilevision1;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,7 +14,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -24,7 +21,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.vision.CameraSource;
@@ -37,11 +33,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.scravlon.mobilevision1.camera.CameraSourcePreview;
 import com.scravlon.mobilevision1.camera.GraphicOverlay;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
 import static com.scravlon.mobilevision1.constantClass.HEADSHARE;
 import static com.scravlon.mobilevision1.constantClass.MUSTSHARE;
 import static com.scravlon.mobilevision1.constantClass.NOSESHARE;
@@ -106,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO pass useful information
         //TODO Activity for result
-
        but_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,14 +107,16 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(typeExtra,HEADSHARE);
                 startActivity(intent);
             }
-        });but_nose.setOnClickListener(new View.OnClickListener() {
+        });
+       but_nose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, drwaingActivity.class);
                 intent.putExtra(typeExtra,NOSESHARE);
                 startActivity(intent);
             }
-        });but_must.setOnClickListener(new View.OnClickListener() {
+        });
+        but_must.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, drwaingActivity.class);

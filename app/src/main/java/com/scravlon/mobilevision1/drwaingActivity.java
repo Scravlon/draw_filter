@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,9 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import static com.scravlon.mobilevision1.constantClass.HEADSHARE;
 import static com.scravlon.mobilevision1.constantClass.SHAREDSTRING;
-import static com.scravlon.mobilevision1.constantClass.arrayExtra;
 import static com.scravlon.mobilevision1.constantClass.typeExtra;
 
 public class drwaingActivity extends AppCompatActivity {
@@ -60,7 +59,23 @@ public class drwaingActivity extends AppCompatActivity {
                 finish();
             }
         });
+        SeekBar seekBar = findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                drawView.updateSize(i);
+            }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
         RadioButton radioRed = findViewById(R.id.radiored);
         RadioButton radioorange = findViewById(R.id.radioorange);
         RadioButton radioyellow = findViewById(R.id.radioyellow);
