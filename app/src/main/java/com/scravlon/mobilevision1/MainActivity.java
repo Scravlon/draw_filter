@@ -124,8 +124,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent,BUTMUSTCODE);
             }
         });
-
-        Toast.makeText(this, "SIZE "+ arrayMust.size(), Toast.LENGTH_SHORT).show();
         refreshView();
 
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);

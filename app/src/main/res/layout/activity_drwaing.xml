@@ -110,15 +110,50 @@
                 android:button="@null"
                 android:text="          " />
 
+            <RadioButton
+                android:id="@+id/radiowhite"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/radiowhite"
+                android:button="@null"
+                android:text="          " />
+
+            <RadioButton
+                android:id="@+id/radiodef"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/radiodef"
+                android:button="@null"
+                android:text="          " />
+
         </RadioGroup>
     </LinearLayout>
 
-    <SeekBar
-        android:id="@+id/seekBar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="5"
-        android:progress="2" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:max="5"
+            android:progress="2" />
+
+        <Button
+            android:id="@+id/but_undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Clear" />
+    </LinearLayout>
 
     <com.scravlon.mobilevision1.drawView
         android:id="@+id/drawView"
