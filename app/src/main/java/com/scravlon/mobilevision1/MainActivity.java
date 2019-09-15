@@ -60,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
     private String chead="";
     private String cnose="";
     private String cmust="";
-
+    public Bitmap headBit;
+    public Bitmap mustBit;
+    public Bitmap noseBit;
 
 
     // permission request codes need to be < 256
@@ -158,28 +160,28 @@ public class MainActivity extends AppCompatActivity {
                         case HEADSHARE:
                             if(chead.equals(c)){
                                 chead="";
-                                mFaceGraphic.headBit = null;
+                                headBit = null;
                             } else{
                                 chead = c;
-                                mFaceGraphic.headBit = decodeBase64(c);
+                                headBit = decodeBase64(c);
                             }
                             break;
                         case MUSTSHARE:
                             if(cmust.equals(c)){
                                 cmust="";
-                                mFaceGraphic.mustBit = null;
+                                mustBit = null;
                             } else{
                                 cmust = c;
-                                mFaceGraphic.mustBit = decodeBase64(c);
+                                mustBit = decodeBase64(c);
                             }
                             break;
                         case NOSESHARE:
                             if(cnose.equals(c)){
                                 cnose="";
-                                mFaceGraphic.noseBit = null;
+                                noseBit = null;
                             } else{
                                 cnose = c;
-                                mFaceGraphic.noseBit = decodeBase64(c);
+                                noseBit = decodeBase64(c);
                             }
                             break;
                         default:
@@ -450,7 +452,7 @@ public class MainActivity extends AppCompatActivity {
 
         GraphicFaceTracker(GraphicOverlay overlay) {
             mOverlay = overlay;
-            mFaceGraphic = new FaceGraphic(overlay,getApplicationContext());
+            mFaceGraphic = new FaceGraphic(overlay,getApplicationContext(),MainActivity.this);
         }
 
         /**

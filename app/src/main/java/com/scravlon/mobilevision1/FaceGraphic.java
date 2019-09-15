@@ -36,6 +36,8 @@ class FaceGraphic extends GraphicOverlay.Graphic {
     private static final float ID_TEXT_SIZE = 40.0f;
     private static final float BOX_STROKE_WIDTH = 5.0f;
     private Context context;
+    private MainActivity mainCon;
+
 
     private static final int COLOR_CHOICES[] = {
         Color.BLUE,
@@ -53,16 +55,15 @@ class FaceGraphic extends GraphicOverlay.Graphic {
     private Paint mBoxPaint;
 
     private volatile Face mFace;
-    public Bitmap headBit;
-    public Bitmap mustBit;
-    public Bitmap noseBit;
+
 
     private int mFaceId;
     private float mFaceHappiness;
 
-    FaceGraphic(GraphicOverlay overlay, Context context) {
+    FaceGraphic(GraphicOverlay overlay, Context context, MainActivity mainActivity) {
         super(overlay);
         this.context = context;
+        this.mainCon = mainActivity;
         mCurrentColorIndex = (mCurrentColorIndex + 1) % COLOR_CHOICES.length;
         final int selectedColor = COLOR_CHOICES[mCurrentColorIndex];
 
@@ -77,6 +78,7 @@ class FaceGraphic extends GraphicOverlay.Graphic {
         mBoxPaint.setColor(selectedColor);
         mBoxPaint.setStyle(Paint.Style.STROKE);
         mBoxPaint.setStrokeWidth(BOX_STROKE_WIDTH);
+
     }
 
     void setId(int id) {
@@ -117,11 +119,13 @@ class FaceGraphic extends GraphicOverlay.Graphic {
 
 
         for(Landmark l : face.getLandmarks()){
-            if(l.getType() == Landmark.NOSE_BASE && noseBit != null){
+            if(l.getType() == Landmark.NOSE_BASE && mainCon.noseBit != null){
                 PointF p = face.getPosition();
                 nosex = translateX(l.getPosition().x);
                 nosey = translateY(l.getPosition().y );
-                canvas.drawBitmap(noseBit,p.x-nosex,p.y-nosey,null);
+                canvas.drawBitmap(mainCon.noseBit,p.x-nosex,p.y-nosey,null);
+               // canvas.drawBitmap(rotatedBitmap,nosex,nosey,null);
+
             } else if(l.getType() == Landmark.LEFT_EYE){
                 eyel = l.getPosition();
             } else if(l.getType() == Landmark.RIGHT_EYE){
@@ -131,26 +135,25 @@ class FaceGraphic extends GraphicOverlay.Graphic {
             }
         }
         //Head
-        if(headBit != null){
+        if(mainCon.headBit != null){
             //TODO Triangle
             float ftx = eyel.x + (eyer.x-eyel.x)/2;
             float fty = eyer.y + (eyer.y-eyel.y)/2;
             //canvas.drawBitmap(headBit,translateX(ftx),translateY(fty),null);
-            Bitmap clone = Bitmap.createScaledBitmap(headBit,(int)face.getWidth()*2,(int)face.getHeight()*2,true);
+            Bitmap clone = Bitmap.createScaledBitmap(mainCon.headBit,(int)face.getWidth()*2,(int)face.getHeight()*2,true);
             canvas.drawBitmap(clone,translateX(ftx),translateY(fty),null);
         }
-        if(mustBit != null){
+        if(mainCon.mustBit != null){
             //TODO Triangle
             float mx = mouth.x;
             float my = mouth.y;
             //canvas.drawBitmap(mustBit,translateX(mx),translateX(my),null);
-            Bitmap clone = Bitmap.createScaledBitmap(mustBit,(int)face.getWidth()*2,(int)face.getHeight()*2,true);
+            Bitmap clone = Bitmap.createScaledBitmap(mainCon.mustBit,(int)face.getWidth()*2,(int)face.getHeight()*2,true);
             canvas.drawBitmap(clone,translateX(face.getPosition().x),translateY(face.getPosition().y),null);
         }
 
 
 
-        //      canvas.drawBitmap(icon,nosex,nosey,null);
     }
     /**
      * Draws the face annotations for position on the supplied canvas.
