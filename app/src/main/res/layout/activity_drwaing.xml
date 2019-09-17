@@ -172,15 +172,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.scravlon.mobilevision1.drawView
-            android:id="@+id/drawView2"
-            android:layout_width="195dp"
-            android:layout_height="65dp"
-            android:layout_marginStart="116dp"
-            android:layout_marginTop="188dp"
-            android:backgroundTint="@android:color/white"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="176dp"
+            android:background="@drawable/border"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/drawView" />
+            app:layout_constraintTop_toTopOf="@+id/drawView">
+
+            <com.scravlon.mobilevision1.drawView
+                android:id="@+id/drawView2"
+                android:layout_width="307dp"
+                android:layout_height="116dp"
+                android:background="@color/colorwhite" />
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
