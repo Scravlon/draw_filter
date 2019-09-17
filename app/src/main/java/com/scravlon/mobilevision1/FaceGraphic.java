@@ -137,8 +137,9 @@ class FaceGraphic extends GraphicOverlay.Graphic {
         //Head
         if(mainCon.headBit != null){
             //TODO Triangle
-            float ftx = eyel.x + (eyer.x-eyel.x)/2;
-            float fty = eyer.y + (eyer.y-eyel.y)/2;
+            float ftx = eyel.x+face.getPosition().x;
+            float fty = eyer.y-face.getPosition().y/2;
+
             //canvas.drawBitmap(headBit,translateX(ftx),translateY(fty),null);
             Bitmap clone = Bitmap.createScaledBitmap(mainCon.headBit,(int)face.getWidth()*2,(int)face.getHeight()*2,true);
             canvas.drawBitmap(clone,translateX(ftx),translateY(fty),null);
@@ -154,32 +155,5 @@ class FaceGraphic extends GraphicOverlay.Graphic {
 
 
 
-    }
-    /**
-     * Draws the face annotations for position on the supplied canvas.
-     */
-    public void draw(Canvas canvas,Bitmap bitmap) {
-        Face face = mFace;
-        if (face == null) {
-            return;
-        }
-       Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.index);
-        Matrix matrix = new Matrix();
-        matrix.postRotate(face.getEulerZ());
-        matrix.postSkew(face.getEulerY()/90,face.getEulerZ()/90);
-        Bitmap must = Bitmap.createScaledBitmap(icon,(int)face.getWidth(),(int)face.getHeight()/2,true);
-        Bitmap rotatedBitmap = Bitmap.createBitmap(must, 0, 0, must.getWidth(), must.getHeight(), matrix, true);
-
-        float nosex = 0.0f;
-        float nosey = 0.0f;
-        for(Landmark l : face.getLandmarks()){
-            if(l.getType() == Landmark.NOSE_BASE){
-                nosex = translateX(l.getPosition().x)-(must.getWidth()/2f);
-                nosey = translateY(l.getPosition().y );
-                canvas.drawBitmap(rotatedBitmap,nosex,nosey,null);
-            }
-        }
-  //      canvas.drawBitmap(icon,nosex,nosey,null);
     }
 }

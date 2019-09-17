@@ -60,6 +60,7 @@ public class drwaingActivity extends AppCompatActivity {
         but_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                drawView.setBackground(null);
                 Bitmap b = loadBitmapFromView(drawView);
                 ArrayList<String> all = arrayListPulling(sharedStringAdding);
                 arrayListAdding(all,sharedStringAdding,encodeTobase64(b));
