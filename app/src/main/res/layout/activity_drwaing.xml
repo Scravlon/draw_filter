@@ -2,6 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -157,10 +158,29 @@
 
     </LinearLayout>
 
-    <com.scravlon.mobilevision1.drawView
-        android:id="@+id/drawView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@drawable/face" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scravlon.mobilevision1.drawView
+            android:id="@+id/drawView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/face"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.scravlon.mobilevision1.drawView
+            android:id="@+id/drawView2"
+            android:layout_width="195dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="116dp"
+            android:layout_marginTop="188dp"
+            android:backgroundTint="@android:color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/drawView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
