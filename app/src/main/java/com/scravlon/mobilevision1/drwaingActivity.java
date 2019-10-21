@@ -29,6 +29,8 @@ public class drwaingActivity extends AppCompatActivity {
     Button but_save;
     Button but_undo;
     drawView drawView;
+    drawView drawView2;
+
     SharedPreferences sharedPreferences;
 
     @Override
@@ -43,6 +45,7 @@ public class drwaingActivity extends AppCompatActivity {
         but_cancel = findViewById(R.id.but_cancel);
         but_undo = findViewById(R.id.but_undo);
         drawView = findViewById(R.id.drawView);
+        drawView2 = findViewById(R.id.drawView2);
         but_undo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,8 +63,10 @@ public class drwaingActivity extends AppCompatActivity {
         but_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawView.setBackground(null);
-                Bitmap b = loadBitmapFromView(drawView);
+//                drawView.setBackground(null);
+                drawView2.setBackground(null);
+//                Bitmap b = loadBitmapFromView(drawView);
+                Bitmap b = loadBitmapFromView(drawView2);
                 ArrayList<String> all = arrayListPulling(sharedStringAdding);
                 arrayListAdding(all,sharedStringAdding,encodeTobase64(b));
                 finish();
@@ -99,54 +104,65 @@ public class drwaingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 drawView.clonePaint();
                 drawView.updateColor(Color.RED);
+                drawView2.clonePaint();
+                drawView2.updateColor(Color.RED);
             }
         });radioorange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawView.clonePaint();
                 drawView.updateColor(Color.rgb(255,127,0));
+                drawView2.clonePaint();
+                drawView2.updateColor(Color.rgb(255,127,0));
             }
         });radioyellow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawView.clonePaint();
-                drawView.updateColor(Color.rgb(255,255,0));
+                drawView.updateColor(Color.rgb(255,255,0));drawView2.clonePaint();
+                drawView2.updateColor(Color.rgb(255,255,0));
             }
         });radiogreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawView.clonePaint();
-                drawView.updateColor(Color.rgb(0,255,0));
+                drawView.updateColor(Color.rgb(0,255,0));drawView2.clonePaint();
+                drawView2.updateColor(Color.rgb(0,255,0));
             }
         });radioblue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawView.clonePaint();
-                drawView.updateColor(Color.rgb(0,0,255));
+                drawView.updateColor(Color.rgb(0,0,255));drawView2.clonePaint();
+                drawView2.updateColor(Color.rgb(0,0,255));
             }
         });radioindigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawView.clonePaint();
-                drawView.updateColor(Color.rgb(39,0,51));
+                drawView.updateColor(Color.rgb(39,0,51));drawView2.clonePaint();
+                drawView2.updateColor(Color.rgb(39,0,51));
             }
         });radioviolet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawView.clonePaint();
-                drawView.updateColor(Color.rgb(139,0,255));
+                drawView.updateColor(Color.rgb(139,0,255));  drawView2.clonePaint();
+                drawView2.updateColor(Color.rgb(139,0,255));
             }
         });radiowhite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawView.clonePaint();
-                drawView.updateColor(Color.rgb(255,255,255));
+                drawView.updateColor(Color.rgb(255,255,255));drawView2.clonePaint();
+                drawView2.updateColor(Color.rgb(255,255,255));
             }
         });radiodef.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawView.clonePaint();
-                drawView.updateColor(Color.rgb(250,250,250));
+                drawView.updateColor(Color.rgb(250,250,250));drawView2.clonePaint();
+                drawView2.updateColor(Color.rgb(250,250,250));
             }
         });
     }

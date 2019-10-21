@@ -111,8 +111,9 @@ class FaceGraphic extends GraphicOverlay.Graphic {
 //        matrix.postSkew(face.getEulerY()/90,face.getEulerZ()/90);
 //        Bitmap must = Bitmap.createScaledBitmap(icon,(int)face.getWidth(),(int)face.getHeight()/2,true);
 //        Bitmap rotatedBitmap = Bitmap.createBitmap(must, 0, 0, must.getWidth(), must.getHeight(), matrix, true);
-        float nosex = 0.0f;
-        float nosey = 0.0f;
+        
+        float nosex;
+        float nosey;
         PointF mouth = null;
         PointF eyel = null;
         PointF eyer= null;
@@ -141,7 +142,7 @@ class FaceGraphic extends GraphicOverlay.Graphic {
             float fty = eyer.y-face.getPosition().y/2;
 
             //canvas.drawBitmap(headBit,translateX(ftx),translateY(fty),null);
-            Bitmap clone = Bitmap.createScaledBitmap(mainCon.headBit,(int)face.getWidth()*2,(int)face.getHeight()*2,true);
+            Bitmap clone = Bitmap.createScaledBitmap(mainCon.headBit,(int)face.getWidth()*2,(int)face.getHeight(),true);
             canvas.drawBitmap(clone,translateX(ftx),translateY(fty),null);
         }
         if(mainCon.mustBit != null){
