@@ -111,6 +111,7 @@ class FaceGraphic extends GraphicOverlay.Graphic {
 //        matrix.postSkew(face.getEulerY()/90,face.getEulerZ()/90);
 //        Bitmap must = Bitmap.createScaledBitmap(icon,(int)face.getWidth(),(int)face.getHeight()/2,true);
 //        Bitmap rotatedBitmap = Bitmap.createBitmap(must, 0, 0, must.getWidth(), must.getHeight(), matrix, true);
+        
         float nosex;
         float nosey;
         PointF mouth = null;
